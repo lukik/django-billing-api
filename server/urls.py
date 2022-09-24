@@ -20,6 +20,7 @@ from django.views.generic import TemplateView
 
 # App routers
 from partners.urls import partner_router
+from finance.urls import finance_router
 
 admin.autodiscover()
 
@@ -50,6 +51,9 @@ public_apis = [
 
     # Partners
     re_path(f'{URL_VERSION}/partners/', include(partner_router.urls)),
+
+    # Finance
+    re_path(f'{URL_VERSION}/finance/', include(finance_router.urls)),
 
 ]
 
