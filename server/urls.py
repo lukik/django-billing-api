@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
+# App routers
+from partners.urls import partner_router
+
 admin.autodiscover()
 
 
@@ -44,6 +47,9 @@ public_apis = [
 
     # # It is a good practice to have explicit index view:
     # re_path(r'^$', index, name='index'),
+
+    # Partners
+    re_path(f'{URL_VERSION}/partners/', include(partner_router.urls)),
 
 ]
 
