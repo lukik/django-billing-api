@@ -1,0 +1,59 @@
+# Wheel 0.25+ needed to install certain packages on CPython 3.5+
+# like Pillow and psycopg2
+# See http://bitly.com/wheel-building-fails-CPython-35
+# Verified bug on Python 3.5.1
+
+
+# Bleeding edge Django
+# ------------------------------------
+django==4.1.1
+
+#Postgresql Support
+psycopg2-binary==2.9.3
+
+# Redis Support
+redis==4.3.4
+
+# Rest Framework
+# ------------------------------------
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.0
+
+# Models
+# ------------------------------------
+django-model-utils==4.2.0
+django-auditlog==2.1.1
+
+# Environment, Settings & Configuration Management
+# ------------------------------------
+django-split-settings==1.1.0
+django-environ==0.9.0
+python-decouple==3.6
+
+# Django Security Related
+# ------------------------------------
+django-csp==3.7
+
+# Time zones support
+# ------------------------------------
+pytz==2022.2.1
+
+# Requests
+# ------------------------------------
+requests==2.28.1
+
+# Task Queue Celery & its monitoring interface
+# ------------------------------------
+celery==5.2.7
+
+# Sentry SDK is the Sentry client
+# --------------------------
+sentry-sdk==1.9.8
+
+# Cross-Origin Resource Sharing (CORS)
+# ------------------------------------
+django-cors-headers==3.5.0
+
+# Passwords & Encryption  # Replaced py-bcrypt with bcrypt : https://code.djangoproject.com/ticket/26016
+# ----------------------
+bcrypt==4.0.0
