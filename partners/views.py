@@ -11,5 +11,5 @@ class PartnerViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
     """
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
-    filter_fields = ('id', 'status')
+    filter_fields = ('id', 'status', 'is_client', 'is_supplier')
 
