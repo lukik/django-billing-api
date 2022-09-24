@@ -39,6 +39,7 @@ BILLING_API_APPS = (
     'core',
     'partners',
     'finance',
+    'billing',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
