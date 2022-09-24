@@ -25,4 +25,29 @@ When developing locally, we use:
 
 ## Documentation
 
+# Database Creation on Postgresql
+$CREATE DATABASE billing_api WITH ENCODING='UTF8' OWNER=postgres CONNECTION LIMIT=25;
+
+# SSL Keys for JWT
+Generate SSL private and public key for SSL. The dev server comes with a set
+
+# Environment Variables
+Create .env file under /config director. Use .env.template as a base
+
+# Migrations
+$python manage.py makemigrations
+$python manage.py migrate
+
+#Create User
+$python manage.py createsuperuser
+- username: biller
+- email: biller@billing-api.xyz
+- password: biller101
+
+# Run the application on your dev terminal
+$python manage.py runserver_plus 0.0.0.0:8000
+
+# Access Django Admin on web browser & login with username and password created above
+http://127.0.0.1:8000/admin/
+
 Full documentation is available here: [`docs/`](docs).
