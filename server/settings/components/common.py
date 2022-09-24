@@ -38,6 +38,7 @@ EXTERNAL_APPS = (
 BILLING_API_APPS = (
     'core',
     'partners',
+    'finance',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
