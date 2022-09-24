@@ -1,0 +1,25 @@
+# Local development dependencies go here
+-r base.txt
+
+django-extensions==3.2.1
+django-debug-toolbar==3.6.0
+django-querycount==0.7.0
+nplusone==1.0.0
+
+# Testing
+pytest-django==4.5.2
+pytest-cov==3.0.0
+factory-boy==3.2.1
+
+# Load Testing
+locust==2.12.1
+
+# PEP 8
+black==22.8.0
+pylint-django==2.5.3
+
+# Dev - For restarting Celery
+watchdog==2.1.9
+
+# Python Line Profiler
+line_profiler==3.5.1
