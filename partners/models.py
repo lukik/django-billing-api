@@ -5,7 +5,7 @@ from core.api_exceptions import MaxLoopException
 from core.randomizer import generate_random, RANDOM
 from partners.choices import PARTNER_STATUS
 
-LENGTH_PARTNER_CODE = 5
+LENGTH_PARTNER_CODE = 6
 
 
 def generate_account_number(loop_counter=0):
