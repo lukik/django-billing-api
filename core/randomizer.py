@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 
 RANDOM = Choices(
     (1, 'PartnerAccountNumber', _('Partner Account Number')),
+    (2, 'InvoiceNumber', _('Invoice Number')),
+
 )
 
 CHAR_SET_NUMBERS = "1234567890"
@@ -22,7 +24,7 @@ def generate_random(random_type, length):
          random_value(str): on success or False on failure
     """
     try:
-        if random_type in [RANDOM.PartnerAccountNumber]:
+        if random_type in [RANDOM.PartnerAccountNumber, RANDOM.InvoiceNumber]:
 
             return generate_random_code(CHAR_SET_NUMBERS, length)
 

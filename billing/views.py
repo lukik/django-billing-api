@@ -1,6 +1,6 @@
 from core.views import DeleteViewSet, ListCreateRetrieveUpdateViewSet
 from billing.models import FeeItem, FeeStructure, Invoice
-from billing.serializer import FeeItemSerializer, FeeStructureSerializer
+from billing.serializer import FeeItemSerializer, FeeStructureSerializer, InvoiceSerializer
 
 
 class FeeItemViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
@@ -20,3 +20,11 @@ class FeeStructureViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
     serializer_class = FeeStructureSerializer
     filter_fields = ('id', 'fee_item')
 
+
+class InvoiceViewSet(ListCreateRetrieveUpdateViewSet):
+    """
+    Manage business invoices
+    """
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceSerializer
+    filter_fields = ('id', 'partner', 'invoice_number')

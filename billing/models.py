@@ -4,8 +4,31 @@ Allow for the definition of simple billing structure
 from django.db import models
 from auditlog.registry import auditlog
 from core.models import BaseModel
+from core.api_exceptions import MaxLoopException
+from core.randomizer import generate_random, RANDOM
 from partners.models import Partner
-from billing.choices import INVOICE_STATUS, INVOICE_DETAIL_TYPE, LINE_ITEM_STATUS
+from billing.choices import INVOICE_STATUS
+
+
+# ToDo: make this a variable in the DB in a settings table
+LENGTH_INVOICE_NUMBER = 4
+
+def generate_invoice_number(loop_counter=0):
+    max_loop = 10
+    try:
+        while True:
+            loop_counter += 1
+            if loop_counter >= max_loop:
+                # If function loops more than x times, raise an error
+                raise MaxLoopException()
+            code = generate_random(RANDOM.InvoiceNumber, LENGTH_INVOICE_NUMBER)
+            try:
+                Invoice.objects.get(invoice_number=code)
+            except Invoice.DoesNotExist:
+                return code
+            continue
+    except MaxLoopException:
+        MaxLoopException()
 
 
 class FeeItem(BaseModel):
@@ -38,16 +61,19 @@ class FeeStructure(BaseModel):
 
 class Invoice(BaseModel):
     """
-    Invoice raised by the Business
+    Simplified Invoice model to capture invoices raised by the Business.
+
+    ToDo: Capture Invoice Line Items in a separate table
     """
     partner = models.ForeignKey(Partner, on_delete=models.CASCADE)
-    invoice_number = models.IntegerField(unique=True)
+    invoice_number = models.IntegerField(unique=True, default=generate_invoice_number)
     invoice_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateField(null=True)
     terms = models.CharField(max_length=250, blank=True)
     status = models.PositiveSmallIntegerField(choices=INVOICE_STATUS)
     status_date = models.DateTimeField(auto_now=True)
     status_by = models.UUIDField(null=True, help_text='Related User')
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
 
     class Meta:
         ordering = ('-created_on',)
@@ -56,32 +82,7 @@ class Invoice(BaseModel):
         return f'{self.invoice_number} - {str(INVOICE_STATUS[self.status])}'
 
 
-class InvoiceDetail(BaseModel):
-    """
-    Amounts related to an invoice.
-    """
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="invoice_details")
-    detail_type = models.PositiveSmallIntegerField(choices=INVOICE_DETAIL_TYPE)
-    line_item = models.ForeignKey("self", on_delete=models.CASCADE, null=True, related_name="line_items",
-                                  help_text="The line item the entry is related to")
-    line_item_status = models.PositiveSmallIntegerField(choices=LINE_ITEM_STATUS, null=True,
-                                                        help_text="Applies to items of Detail Type LineItem")
-    line_item_status_date = models.DateTimeField(null=True)
-    fee_item = models.ForeignKey(FeeItem, on_delete=models.CASCADE, null=True, related_name="fee_items")
-    amount = models.DecimalField(max_digits=20, decimal_places=2)
-    description = models.CharField(max_length=250, blank=True)
-    trx_ref_number = models.TextField(blank=True, help_text='Code to identify the transaction')
-    trx_time = models.DateTimeField()
-    is_cancelled = models.BooleanField(default=False)
-    reason_cancelled = models.CharField(max_length=100, blank=True)
-    cancelled_by = models.UUIDField(null=True, editable=False, help_text='Related User')
-
-    def __str__(self):
-        return f'{self.invoice.invoice_number} - {self.description} - {self.amount}'
-
-
 # Add models to Audit Log
 auditlog.register(FeeItem)
 auditlog.register(FeeStructure)
 auditlog.register(Invoice)
-auditlog.register(InvoiceDetail)

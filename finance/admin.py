@@ -1,3 +1,6 @@
 from django.contrib import admin
+from finance.models import ChartOfAccounts, GeneralJournal
 
-# Register your models here.
+
+admin.site.register(ChartOfAccounts)
+admin.site.register(GeneralJournal)
