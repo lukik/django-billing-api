@@ -27,6 +27,7 @@ API_CODE = Choices(
     (6217, 'PermissionDenied', _('Permission Denied')),
     (6218, 'RequiredParameter', _('Required Parameter')),
     (6219, 'DeleteError', _('Delete Error')),
+    (6220, 'InvalidFileName', _('Invalid File Name')),
 
     # 6400 - 6499 | Requests Errors | 100
     (6401, 'EndPointHTTPError', _("HTTPError occurred")),

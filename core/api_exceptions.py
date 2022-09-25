@@ -210,6 +210,25 @@ class FileAlreadyProcessed(APIException):
             }
 
 
+class InvalidFileName(APIException):
+    api_code = API_CODE.InvalidFileName
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_message = _('Invalid File Name')
+
+    def __init__(self, message="", field=""):
+        if message: self.default_message = message
+        if field:
+            self.detail = {
+                'code': self.api_code,
+                'message': {field: force_str(self.default_message)}
+            }
+        else:
+            self.detail = {
+                'code': self.api_code,
+                'message': force_str(self.default_message)
+            }
+
+
 class DuplicateRecord(APIException):
     api_code = API_CODE.DuplicateRecord
     status_code = status.HTTP_409_CONFLICT

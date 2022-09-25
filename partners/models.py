@@ -1,5 +1,7 @@
+import os
 from django.db import models
 from auditlog.registry import auditlog
+from server.settings import env
 from core.models import BaseModel
 from core.api_exceptions import MaxLoopException
 from core.randomizer import generate_random, RANDOM
@@ -41,6 +43,19 @@ class Partner(BaseModel):
 
     def __str__(self):
         return f'{self.title} - {self.account_number}'
+
+
+class PartnerUpload(BaseModel):
+    """
+    File uploaded by the business to upload partners in bulk
+    """
+    document = models.FileField(upload_to=env('PATH_PARTNER_IMPORT_FILE'))
+    file_name = models.TextField(help_text='Name of File')
+    upload_date = models.DateTimeField(auto_now_add=True)
+    imported_successfully = models.BooleanField(null=True)
+
+    def __str__(self):
+        return f'{self.file_name}'
 
 
 # Add models to Audit Log
