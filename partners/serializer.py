@@ -33,17 +33,16 @@ class PartnerUploadSerializer(CurrentUserSerializer):
         model = PartnerUpload
         fields = (
             'id', 'created_by', 'file', 'upload_date',
-            'imported_successfully', 'file_name',
+            'imported_successfully', 'import_summary', 'file_name',
         )
         extra_kwargs = {
             'imported_successfully': {'read_only': True},
+            'import_summary': {'read_only': True},
         }
 
     def validate(self, attrs):
 
         ext = os.path.splitext(attrs['document'].name)[1]
-        print("file_name: ", ext)
-        print("ext: ", ext)
         if ext != ".csv":
             raise InvalidFileName("Invalid File Type. Only .csv files are allowed")
 

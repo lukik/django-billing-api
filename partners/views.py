@@ -5,6 +5,7 @@ from partners.serializer import PartnerSerializer, PartnerUploadSerializer
 
 class PartnerViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
     """
+    Manage partners of the business
     """
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
@@ -13,9 +14,9 @@ class PartnerViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
 
 class PartnerUploadViewSet(DeleteViewSet, ListCreateRetrieveUpdateViewSet):
     """
-    Manage bulk importation of school settings (upload a file)
+    Manage bulk importation of partners (upload a file)
     """
     queryset = PartnerUpload.objects.all()
     serializer_class = PartnerUploadSerializer
     filter_fields = ('id', 'upload_date', 'imported_successfully')
-    ordering = ('-upload_date',)
+

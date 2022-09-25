@@ -28,16 +28,19 @@ The non-AMQP backends like Redis or SQS don’t support exchanges, so they requi
 the queue. Using this design ensures it will work for them as well.
 source: https://docs.celeryproject.org/en/latest/userguide/routing.html
 """
-
+# Name Placeholders
+file_runner = "file_runner"
 
 # Declare the exchanges
 exchange_default = Exchange("billing_api_exchange", type='direct')
 
 CELERY_TASK_QUEUES = (
-
+    Queue(file_runner, exchange=exchange_default, routing_key=file_runner),
 )
 
 CELERY_TASK_ROUTES = (
+    # Import school setup file
+    {'partners.partner_import.import_partners': {'queue': file_runner}},
 
 )
 

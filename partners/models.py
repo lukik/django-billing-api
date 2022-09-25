@@ -44,6 +44,20 @@ class Partner(BaseModel):
     def __str__(self):
         return f'{self.title} - {self.account_number}'
 
+    @staticmethod
+    def create_new(created_by_id, title, notes, is_client, is_supplier, bulk_create=False):
+
+        if not bulk_create:
+            return Partner.objects.create(
+                created_by_id=created_by_id, title=title, notes=notes,
+                is_client=is_client, is_supplier=is_supplier
+            )
+        else:
+            return Partner(
+                created_by_id=created_by_id, title=title, notes=notes,
+                is_client=is_client, is_supplier=is_supplier
+            )
+
 
 class PartnerUpload(BaseModel):
     """
@@ -53,10 +67,13 @@ class PartnerUpload(BaseModel):
     file_name = models.TextField(help_text='Name of File')
     upload_date = models.DateTimeField(auto_now_add=True)
     imported_successfully = models.BooleanField(null=True)
+    import_summary = models.TextField(help_text="Summary of import")
 
     def __str__(self):
         return f'{self.file_name}'
 
+    class Meta:
+        ordering = ('-upload_date',)
 
 # Add models to Audit Log
 auditlog.register(Partner)
