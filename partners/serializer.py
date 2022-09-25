@@ -1,9 +1,10 @@
 from rest_framework import serializers
+from core.serializer import CurrentUserSerializer
 from partners.models import Partner
 from partners.choices import PARTNER_STATUS
 
 
-class PartnerSerializer(serializers.ModelSerializer):
+class PartnerSerializer(CurrentUserSerializer):
     """Serialize model"""
     status = serializers.ChoiceField(choices=PARTNER_STATUS)
     status_name = serializers.SerializerMethodField()
@@ -13,4 +14,4 @@ class PartnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Partner
-        fields = ('id', 'title', 'status', 'status_name', 'is_client', 'is_supplier')
+        fields = ('id', 'created_by', 'title', 'status', 'status_name', 'is_client', 'is_supplier')

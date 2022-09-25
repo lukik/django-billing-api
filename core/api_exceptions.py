@@ -21,6 +21,12 @@ REQUESTS_EXCEPTIONS = (
 
 
 # Custom Exception Handler
+class MaxLoopException(Exception):
+    """Raised when a function exceeds a set number of loops"""
+
+    def __init__(self):
+        Exception.__init__(self, "function exceeds the set number of loops")
+
 
 def custom_exception_handler(exc, context):
     """
