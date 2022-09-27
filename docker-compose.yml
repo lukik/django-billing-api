@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6380"
+  api:
+    build: .
+    command: python manage.py runserver_plus 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+  celery:
+    build: .
+    command: celery -A server worker -l info
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - api
+      - redis
