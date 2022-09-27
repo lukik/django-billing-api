@@ -13,8 +13,5 @@ RUN pip install --upgrade pip
 COPY ./requirements .
 RUN pip install -r local.txt
 
-# Create a directory for logs
-RUN mkdir /usr/src/app/logs
-
 # copy project
 COPY . .
