@@ -1,4 +1,4 @@
-# billing_api
+# Billing API
 
 Billing API
 
@@ -9,9 +9,11 @@ This project was generated with [`wemake-django-template`](https://github.com/we
 
 You will need:
 
-- `python3.9`
+- `python 3.9.13`
 - `postgresql 12`
 - `django 4.1.1`
+- `poetry`
+- `docker`
 
 
 ## Development
@@ -19,35 +21,56 @@ You will need:
 When developing locally, we use:
 
 - [`editorconfig`](http://editorconfig.org/) plugin (**required**)
-- `virtualenv` (optional)
 - `pycharm 2022.2.2` (optional)
 
 
-## Documentation
 
-# Database Creation on Postgresql
-$CREATE DATABASE billing_api WITH ENCODING='UTF8' OWNER=postgres CONNECTION LIMIT=25;
+# Getting Started
 
-# SSL Keys for JWT
-Generate SSL private and public key for SSL. The dev server comes with a set
+## Environment Variables
+Create a .env file under `/config` directory. Use `.env.template` as a base
 
-# Environment Variables
-Create .env file under /config director. Use .env.template as a base
+## Bring up the containers
+`#docker-compose up --build`
 
-# Migrations
-$python manage.py makemigrations
-$python manage.py migrate
+## You can confirm if the containers are running
+`$docker ps`
 
-#Create User
-$python manage.py createsuperuser
+## Run Migrations to create DB Tables
+$docker-compose exec api python manage.py migrate
+
+## Create Django User
+`$docker-compose exec api python manage.py createsuperuser`
 - username: biller
 - email: biller@billing-api.xyz
 - password: biller101
 
-# Run the application on your dev terminal
-$python manage.py runserver_plus 0.0.0.0:8000
+## Access Django Admin on web browser 
+login with username and password created above
 
-# Access Django Admin on web browser & login with username and password created above
-http://127.0.0.1:8000/admin/
+- URL: http://127.0.0.1:8000/admin/
+
+
+
+## Extra details
+___
+
+Use the command below to access your database from the terminal (username and password
+are as per your .env file in `/config` directory)
+
+`$docker-compose exec db psql --username=POSTGRES_USER --dbname=POSTGRES_USER`
+
+## Access PostgreSQL and Redis from your localhost
+## postgresql: 
+  - Host: `localhost`
+  - Username: value in `POSTGRES_USER` in .env
+  - Password: (blank i.e. no password)
+  - Port: `6432` (This can be changed in `docker-compose.override.yml`)
+  
+## redis: 
+  - Host: `localhost`
+  - Password: (blank i.e. no password) 
+  - Port: `7379` (This can be changed in `docker-compose.override.yml`)
+  
 
 Full documentation is available here: [`docs/`](docs).
