@@ -32,6 +32,7 @@ EXTERNAL_APPS = (
     'corsheaders',
     'rest_framework',  # Django Rest Framework
     'auditlog',  # Track Model Changes
+    'drf_spectacular',  # API documentation
 
 )
 

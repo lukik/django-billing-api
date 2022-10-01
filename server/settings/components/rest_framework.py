@@ -26,6 +26,7 @@ REST_FRAMEWORK = {
     'ALLOWED_VERSIONS': ('v1', 'v2'),
 
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 #######################
@@ -62,27 +63,34 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-#########################
-# Swagger Settings
-#########################
-SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,
-    'SECURITY_DEFINITIONS': {
-        'api_key': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
-        }
-    },
-    'APIS_SORTER': 'alpha',
-    'SUPPORTED_SUBMIT_METHODS': ['get', 'post', 'put', 'delete', 'patch'],
-    'OPERATIONS_SORTER': 'alpha',
-    'TAGS_SORTER': 'alpha',
-    'DOC_EXPANSION': 'None',
-}
+# #########################
+# # Swagger Settings
+# #########################
+# SWAGGER_SETTINGS = {
+#     'USE_SESSION_AUTH': False,
+#     'SECURITY_DEFINITIONS': {
+#         'api_key': {
+#             'type': 'apiKey',
+#             'in': 'header',
+#             'name': 'Authorization'
+#         }
+#     },
+#     'APIS_SORTER': 'alpha',
+#     'SUPPORTED_SUBMIT_METHODS': ['get', 'post', 'put', 'delete', 'patch'],
+#     'OPERATIONS_SORTER': 'alpha',
+#     'TAGS_SORTER': 'alpha',
+#     'DOC_EXPANSION': 'None',
+# }
+#
+# REDOC_SETTINGS = {
+#     'EXPAND_RESPONSES': '201',  # E.g. '200,201' or 'all'
+#     'PATH_IN_MIDDLE': 'False',
+# }
 
-REDOC_SETTINGS = {
-    'EXPAND_RESPONSES': '201',  # E.g. '200,201' or 'all'
-    'PATH_IN_MIDDLE': 'False',
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Billing API',
+    'DESCRIPTION': 'API to demonstrate Django and DRF concepts',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
-
