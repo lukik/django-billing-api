@@ -6,17 +6,15 @@ Main URL mapping configuration file.
 Include other URLConfs from external apps using method `include()`.
 
 It is also a good practice to keep a single URL to the root index page.
-
-This examples uses Django's default media
-files serving technique in development.
 """
 
 from django.conf import settings
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 # App routers
 from partners.urls import partner_router
@@ -30,13 +28,6 @@ URL_VERSION = r'^(?P<version>v[1])'
 
 public_apis = [
 
-    # # django-admin:
-    # re_path(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    # re_path(r'^admin/', admin.site.urls),
-
-    # # Apps:
-    # re_path(r'^main/', include(main_urls)),
-
     # Text and xml static files:
     re_path(r'^robots\.txt$', TemplateView.as_view(
         template_name='txt/robots.txt',
@@ -47,9 +38,9 @@ public_apis = [
         content_type='text/plain',
     )),
 
-    # # It is a good practice to have explicit index view:
-    # re_path(r'^$', index, name='index'),
-
+    ###############################
+    # Billing API Apps
+    ###############################
     # Partners
     re_path(f'{URL_VERSION}/partners/', include(partner_router.urls)),
 
@@ -61,8 +52,15 @@ public_apis = [
 
 ]
 
+docs = [
+    # YOUR PATTERNS
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+]
 
-urlpatterns = public_apis + [
+urlpatterns = public_apis + docs + [
 
     # Django Admin, use {% url 'admin:index' %}
     re_path(settings.ADMIN_URL, admin.site.urls),
