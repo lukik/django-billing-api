@@ -60,6 +60,9 @@ testpaths = [
 ]
 DJANGO_SETTINGS_MODULE = "server.settings"
 
-
-
-
+[tool.coverage.run]
+omit = [
+    "*migrations/*",
+    "server/settings/*",
+    "tests/*"
+    ]
