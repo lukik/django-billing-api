@@ -34,15 +34,32 @@ django-debug-toolbar = "^3.6.0"
 nplusone = "^1.0.0"
 django-extensions = "^3.2.1"
 django-querycount = "^0.7.0"
-pytest-django = "^4.5.2"
-pytest-cov = "^3.0.0"
-factory-boy = "^3.2.1"
 locust = "^2.12.1"
 black = "^22.8.0"
 pylint-django = "^2.5.3"
 watchdog = "^2.1.9"
 line-profiler = "^3.5.1"
+pytest-django = "^4.5.2"
+pytest-cov = "^3.0.0"
+factory-boy = "^3.2.1"
+model-bakery = "^1.7.1"
+pytest-factoryboy = "^2.5.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+# PyTest Configurations
+[tool.pytest.ini_options]
+minversion = "6.0"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "-vv -x --lf -ra -q"
+testpaths = [
+    "tests",
+]
+DJANGO_SETTINGS_MODULE = "server.settings"
+
+
+
+
